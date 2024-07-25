@@ -2,19 +2,32 @@
   "name": "ReloadMagic",
   "displayName": "Reload Magic",
   "description": "Automatically reloads Node.js backend and browser on file changes",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "publisher": "BamaCharanChhandogi",
   "engines": {
     "vscode": "^1.91.0"
   },
+  "icon": "images/logo.jpeg",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/BamaCharanChhandogi/Reload-Magic"
+  },
   "categories": [
     "Other"
   ],
-"activationEvents": [
-  "onLanguage:javascript",
-  "onLanguage:html",
-  "onLanguage:css"
-],
+  "activationEvents": [
+    "onLanguage:javascript",
+    "onLanguage:html",
+    "onLanguage:css",
+    "onLanguage:ejs",
+    "onLanguage:javascriptreact",
+    "onLanguage:typescript",
+    "onLanguage:typescriptreact",
+    "onLanguage:scss",
+    "onLanguage:less",
+    "onLanguage:vue",
+    "onLanguage:svelte"
+  ],
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
@@ -28,7 +41,7 @@
       "properties": {
         "reloadMagic.websocketPort": {
           "type": "number",
-          "default": 3000,
+          "default": 8080,
           "description": "Port for the WebSocket server"
         }
       }
