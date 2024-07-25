@@ -1,8 +1,8 @@
 {
   "name": "ReloadMagic",
   "displayName": "Reload Magic",
-  "description": "Automatically reloads Node.js backend on file changes",
-  "version": "0.0.1",
+  "description": "Automatically reloads Node.js backend and browser on file changes",
+  "version": "0.0.2",
   "publisher": "BamaCharanChhandogi",
   "engines": {
     "vscode": "^1.91.0"
@@ -10,18 +10,29 @@
   "categories": [
     "Other"
   ],
-  "activationEvents": [
-  "onCommand:extension.startAutoReload"
+"activationEvents": [
+  "onLanguage:javascript",
+  "onLanguage:html",
+  "onLanguage:css"
 ],
   "main": "./out/extension.js",
   "contributes": {
-   "commands": [
-  {
-    "command": "extension.startAutoReload",
-    "title": "Start Backend Auto-Reload"
-  }
-]
-
+    "commands": [
+      {
+        "command": "extension.toggleAutoReload",
+        "title": "Toggle Auto-Reload"
+      }
+    ],
+    "configuration": {
+      "title": "Reload Magic",
+      "properties": {
+        "reloadMagic.websocketPort": {
+          "type": "number",
+          "default": 3000,
+          "description": "Port for the WebSocket server"
+        }
+      }
+    }
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",
@@ -42,5 +53,8 @@
     "@vscode/test-electron": "^2.4.0",
     "eslint": "^8.57.0",
     "typescript": "^5.4.5"
+  },
+  "dependencies": {
+    "ws": "^8.18.0"
   }
 }

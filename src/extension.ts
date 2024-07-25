@@ -5,33 +5,69 @@ import * as WebSocket from 'ws';
 
 let serverProcess: cp.ChildProcess | null = null;
 let wss: WebSocket.Server | null = null;
+let statusBarItem: vscode.StatusBarItem;
+let isActive = false;
 
 export function activate(context: vscode.ExtensionContext) {
     console.log('Auto-Reload extension is now active');
 
-    let disposable = vscode.commands.registerCommand('extension.startAutoReload', () => {
-        const workspaceFolders = vscode.workspace.workspaceFolders;
-        if (!workspaceFolders) {
-            vscode.window.showErrorMessage('No workspace folder found');
-            return;
+    // Create status bar item
+    statusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 100);
+    statusBarItem.text = "$(sync) Start Auto-Reload";
+    statusBarItem.command = 'extension.toggleAutoReload';
+    statusBarItem.show();
+    context.subscriptions.push(statusBarItem);
+
+    let toggleDisposable = vscode.commands.registerCommand('extension.toggleAutoReload', () => {
+        if (isActive) {
+            stopAutoReload();
+        } else {
+            startAutoReload();
         }
-
-        const rootPath = workspaceFolders[0].uri.fsPath;
-        startServer(rootPath);
-        startWebSocketServer();
-
-        const watcher = vscode.workspace.createFileSystemWatcher(
-            new vscode.RelativePattern(rootPath, '**/*.{js,html,css}')
-        );
-
-        watcher.onDidChange(() => triggerReload());
-        watcher.onDidCreate(() => triggerReload());
-        watcher.onDidDelete(() => triggerReload());
-
-        context.subscriptions.push(watcher);
     });
 
-    context.subscriptions.push(disposable);
+    context.subscriptions.push(toggleDisposable);
+}
+
+function startAutoReload() {
+    const workspaceFolders = vscode.workspace.workspaceFolders;
+    if (!workspaceFolders) {
+        vscode.window.showErrorMessage('No workspace folder found');
+        return;
+    }
+
+    const rootPath = workspaceFolders[0].uri.fsPath;
+    startServer(rootPath);
+    startWebSocketServer();
+
+    const watcher = vscode.workspace.createFileSystemWatcher(
+        new vscode.RelativePattern(rootPath, '**/*.{js,html,css}')
+    );
+
+    watcher.onDidChange(() => triggerReload());
+    watcher.onDidCreate(() => triggerReload());
+    watcher.onDidDelete(() => triggerReload());
+
+    isActive = true;
+    updateStatusBarItem();
+
+    vscode.window.showInformationMessage('Auto-Reload started');
+}
+
+function stopAutoReload() {
+    if (serverProcess) {
+        serverProcess.kill();
+        serverProcess = null;
+    }
+    if (wss) {
+        wss.close();
+        wss = null;
+    }
+
+    isActive = false;
+    updateStatusBarItem();
+
+    vscode.window.showInformationMessage('Auto-Reload stopped');
 }
 
 function startServer(rootPath: string) {
@@ -45,6 +81,10 @@ function startServer(rootPath: string) {
         stdio: 'inherit'
     });
 
+    serverProcess.on('error', (err) => {
+        vscode.window.showErrorMessage(`Failed to start server: ${err.message}`);
+    });
+
     vscode.window.showInformationMessage('Node.js server started');
 }
 
@@ -53,10 +93,19 @@ function startWebSocketServer() {
         wss.close();
     }
 
-    wss = new WebSocket.Server({ port: 3000 });
+    const port = vscode.workspace.getConfiguration('autoReload').get('websocketPort', 3000);
+
+    wss = new WebSocket.Server({ port });
     
     wss.on('connection', (ws) => {
         console.log('Browser connected');
+        ws.on('error', (error) => {
+            console.error('WebSocket error:', error);
+        });
+    });
+
+    wss.on('error', (error) => {
+        vscode.window.showErrorMessage(`WebSocket server error: ${error.message}`);
     });
 }
 
@@ -71,11 +120,16 @@ function triggerReload() {
     vscode.window.showInformationMessage('Triggered browser reload');
 }
 
+function updateStatusBarItem() {
+    if (isActive) {
+        statusBarItem.text = "$(sync~spin) Auto-Reload Active";
+        statusBarItem.tooltip = "Click to stop Auto-Reload";
+    } else {
+        statusBarItem.text = "$(sync) Start Auto-Reload";
+        statusBarItem.tooltip = "Click to start Auto-Reload";
+    }
+}
+
 export function deactivate() {
-    if (serverProcess) {
-        serverProcess.kill();
-    }
-    if (wss) {
-        wss.close();
-    }
+    stopAutoReload();
 }
