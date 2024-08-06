@@ -1,8 +1,8 @@
 {
-  "name": "ReloadMagic",
-  "displayName": "Reload Magic",
-  "description": "Automatically reloads Node.js backend and browser on file changes",
-  "version": "0.0.3",
+  "name": "auto-reload-backend",
+  "displayName": "Auto Reload Backend",
+  "description": "Automatically reloads Node.js backend and browser on file changes for seamless web development",
+  "version": "0.0.1",
   "publisher": "BamaCharanChhandogi",
   "engines": {
     "vscode": "^1.91.0"
@@ -10,18 +10,29 @@
   "icon": "images/logo.jpeg",
   "repository": {
     "type": "git",
-    "url": "https://github.com/BamaCharanChhandogi/Reload-Magic"
+    "url": "https://github.com/BamaCharanChhandogi/Auto-Reload-Backend"
   },
+  "keywords": [
+    "auto reload",
+    "live reload",
+    "hot reload",
+    "backend",
+    "nodejs",
+    "web development",
+    "productivity"
+  ],
   "categories": [
-    "Other"
+    "Other",
+    "Debuggers",
+    "Snippets"
   ],
   "activationEvents": [
     "onLanguage:javascript",
+    "onLanguage:typescript",
     "onLanguage:html",
     "onLanguage:css",
     "onLanguage:ejs",
     "onLanguage:javascriptreact",
-    "onLanguage:typescript",
     "onLanguage:typescriptreact",
     "onLanguage:scss",
     "onLanguage:less",
@@ -33,16 +44,26 @@
     "commands": [
       {
         "command": "extension.toggleAutoReload",
-        "title": "Toggle Auto-Reload"
+        "title": "Toggle Auto-Reload Backend"
       }
     ],
     "configuration": {
-      "title": "Reload Magic",
+      "title": "Auto Reload Backend",
       "properties": {
-        "reloadMagic.websocketPort": {
+        "autoReloadBackend.websocketPort": {
           "type": "number",
           "default": 8080,
           "description": "Port for the WebSocket server"
+        },
+        "autoReloadBackend.watchFolders": {
+          "type": "array",
+          "default": ["src", "public"],
+          "description": "Folders to watch for changes"
+        },
+        "autoReloadBackend.fileTypes": {
+          "type": "array",
+          "default": [".js", ".ts", ".html", ".css", ".ejs"],
+          "description": "File types that trigger a reload"
         }
       }
     }

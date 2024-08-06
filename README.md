@@ -1,55 +1,69 @@
 # Auto Reload Backend - VS Code Extension
 
+## Boost Your Web Development Productivity with Automatic Node.js and Browser Reloading
+
 ## Overview
 
-Auto Reload Backend for VS Code is a powerful extension designed to streamline your web development workflow. It automatically detects changes in your project files and triggers a reload of your Node.js backend, eliminating the need for manual restarts. This extension works in tandem with the Auto Reload Backend browser extension to provide a seamless development experience.
+Auto Reload Backend is a powerful Visual Studio Code extension that revolutionizes your web development workflow. It automatically reloads your Node.js backend and refreshes your browser when file changes are detected, eliminating the need for manual restarts and browser refreshes. Supercharge your coding efficiency with Auto Reload Backend!
 
-## Features
+## 🚀 Key Features
 
-- Auto-restart Node.js server automatically when backend files are modified.
-- WebSocket communication establishes a WebSocket connection to communicate with the browser extension.
-- Customizable file watching configures which file types and directories trigger reloads.
-- Status indicators provide clear visual feedback in VS Code about the server status.
+- Automatic Node.js Server Restart: Instantly restarts your backend when server-side files change
+- Browser Auto-Refresh: Automatically reloads your browser for frontend updates
+- WebSocket Communication: Establishes a fast, reliable connection with the browser extension
+- Multi-Language Support: Works with JavaScript, TypeScript, HTML, CSS, EJS, React, Vue, Svelte, and more
+- Customizable Settings: Tailor the extension to your specific project needs
+- Visual Feedback: Clear status indicators in VS Code for server and connection statu
 
-## Requirements
+## 🛠️ Requirements
 
 - Visual Studio Code v1.60.0 or higher
 - Node.js v12.0.0 or higher
-- Auto Reload Backend browser extension installed in your web browser
+- Auto Reload Backend browser extension (available for Chrome, Firefox, Edge, and Safari)
 
-## Installation
+## 📦 Installation
 
 1. Open Visual Studio Code
 2. Go to the Extensions view (Ctrl+Shift+P or Cmd+Shift+P, then type "Extensions")
 3. Search for "Auto Reload Backend"
 4. Click Install
 
-## Usage
+## 🔧 Usage
 
 1. Open your web project in VS Code.
-2. Press `Ctrl+Shift+P` (or `Cmd+Shift+P` on macOS) to open the Command Palette.
-3. Type "Start Auto Reload Backend" and select the command to activate the extension.
-4. The extension will now watch for file changes and handle backend reloads automatically.
+2. Look for the "Auto Reload Active" button in the VS Code status bar
+3. Click the "Auto Reload Active" button to toggle the extension on or off
+4. When active, start coding and watch your changes instantly appear in the browser!
 
-## Configuration
+The "Auto Reload Active" button will change appearance to indicate whether the auto-reload feature is currently on or off.
+
+
+### 🚦 Status Indicator: 
+The "Auto Reload Active" button serves as a status indicator:
+- **Green**: Auto-reload is active and functioning
+- **Red**: Auto-reload is inactive
+- **Yellow**: Auto-reload is active but there might be a connection issue
+
+
+Note: Ensure that your Node.js server is running and that you have the Auto Reload Backend browser extension installed for full functionality
+
+## ⚙️ Configuration
 
 You can customize the extension's behavior in your VS Code settings:
 
 ```json
 {
-  "autoReloadBackend.watchFolders": ["src", "server"],
-  "autoReloadBackend.fileTypes": [".js", ".ts", ".json"],
-  "autoReloadBackend.delay": 100,
-  "autoReloadBackend.port": 3000
+  "autoReloadBackend.websocketPort": 8080,
+  "autoReloadBackend.watchFolders": ["src", "public"],
+  "autoReloadBackend.fileTypes": [".js", ".ts", ".html", ".css"]
 }
 ```
 
-- `watchFolders`: Specifies which folders to watch for changes.
-- `fileTypes`: Defines which file types should trigger a reload.
-- `delay`: Sets a delay (in milliseconds) before triggering a reload after a file change.
-- `port`: The port number your Node.js server is running on.
+- `websocketPort`:  Set the port for the WebSocket server (default: 8080).
+- `watchFolders`: Specify which folders to watch for change
+- `fileTypes`: Define which file types should trigger a reload
 
-## Troubleshooting
+## 🔍 Troubleshooting
 
 If you encounter any issues:
 
@@ -58,15 +72,15 @@ If you encounter any issues:
 3. Verify that the WebSocket connection is established (you should see a status indicator in VS Code).
 4. If problems persist, please file an issue on our GitHub repository.
 
-## Contributing
+## 🤝 Contributing
 
 We welcome contributions! Please see our [CONTRIBUTING.md](CONTRIBUTING.md) file for details on how to get involved.
 
-## License
+## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
 
-## Support
+## 🆘 Support
 
 If you need help or have questions, please:
 
@@ -74,4 +88,11 @@ If you need help or have questions, please:
 - File an issue on our [GitHub repository](https://github.com/yourusername/vscode-auto-reload-backend)
 - Contact us at support@autoreloadbackend.com
 
-Thank you for using Auto Reload Backend for VS Code!
+## 🌟 Why Choose Auto Reload Backend?
+- `Time-saving`: Eliminate manual reloads and focus on writing great code
+- `Flexible`: Supports a wide range of web technologies and frameworks
+- `User-friendly`: Easy to set up and use, with intuitive controls
+- `Performance`: Optimized for speed, with minimal impact on your development environment
+- `Active development`: Regular updates and new features based on user feedback
+
+### Experience the power of seamless development with Auto Reload Backend! 🚀✨

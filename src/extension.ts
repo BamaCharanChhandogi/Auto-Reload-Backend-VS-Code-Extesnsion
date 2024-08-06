@@ -121,6 +121,12 @@ function startWebSocketServer() {
 
   wss.on("connection", (ws) => {
     console.log("Browser connected");
+    ws.on("message", (data: WebSocket.RawData) => {
+      const message = data.toString();
+      if (message === "ping") {
+        ws.send("pong");
+      }
+    });
     ws.on("error", (error) => {
       console.error("WebSocket error:", error);
     });
